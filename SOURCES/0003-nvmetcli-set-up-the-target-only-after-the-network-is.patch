@@ -1,0 +1,39 @@
+From 0855bcec9a5a9ceba586a5a1e1a8742b85424870 Mon Sep 17 00:00:00 2001
+From: Maurizio Lombardi <mlombard@redhat.com>
+Date: Tue, 28 Feb 2023 17:36:15 +0100
+Subject: [PATCH] nvmetcli: set up the target only after the network is
+ configured
+
+network.target only indicates that the network stack is up, but it
+doesn't mean that the network devices have been configured.
+
+Replace it with network-online.target, this fixes the following
+error when systemd restores the target configuration during boot:
+
+[   19.613251] nvmet_tcp: failed to bind port socket -99
+[FAILED] Failed to start Restore NVMe kernel target configuration.
+
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ nvmet.service | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/nvmet.service b/nvmet.service
+index 5c7991e..6f97a91 100644
+--- a/nvmet.service
++++ b/nvmet.service
+@@ -1,7 +1,8 @@
+ [Unit]
+ Description=Restore NVMe kernel target configuration
+ Requires=sys-kernel-config.mount
+-After=sys-kernel-config.mount network.target local-fs.target
++After=sys-kernel-config.mount network-online.target local-fs.target
++Wants=network-online.target
+ 
+ [Service]
+ Type=oneshot
+-- 
+2.31.1
+

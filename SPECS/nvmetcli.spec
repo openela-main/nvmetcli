@@ -3,11 +3,12 @@ License:        ASL 2.0
 Group:          Applications/System
 Summary:        An adminstration shell for NVMe storage targets
 Version:        0.7
-Release:        3%{?dist}
+Release:        5%{?dist}
 URL:            ftp://ftp.infradead.org/pub/nvmetcli/
 Source:         ftp://ftp.infradead.org/pub/nvmetcli/%{name}-%{version}.tar.gz
 Patch0:         0001-Documentation-fix-typo.patch
 Patch1:         0002-nvmetcli-don-t-remove-ANA-Group-1-on-clear.patch
+Patch2:         0003-nvmetcli-set-up-the-target-only-after-the-network-is.patch
 BuildArch:      noarch
 BuildRequires:  python3-devel python3-setuptools systemd-units asciidoc xmlto
 Requires:       python3-configshell python3-kmod
@@ -24,6 +25,7 @@ as well as saving / restoring the configuration to / from a json file.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__python3} setup.py build
@@ -58,6 +60,12 @@ install -m 644 Documentation/nvmetcli.8.gz %{buildroot}%{_mandir}/man8/
 %{_mandir}/man8/nvmetcli.8.gz
 
 %changelog
+* Tue Apr 04 2023 Maurizio Lombardi <mlombard@redhat.com> - 0.7-5
+- Fix gating tests.
+
+* Tue Apr 04 2023 Maurizio Lombardi <mlombard@redhat.com> - 0.7-4
+- Fix BZ 2173777
+
 * Wed Apr 28 2021 Maurizio Lombardi <mlombard@redhat.com> - 0.7-3
 - Fix a failure when executing a clear command
 

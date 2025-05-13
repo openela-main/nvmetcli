@@ -1,22 +1,10 @@
 Name:           nvmetcli
 License:        ASL 2.0
 Summary:        An adminstration shell for NVMe storage targets
-Version:        0.7
+Version:        0.8
 Release:        3%{?dist}
 URL:            ftp://ftp.infradead.org/pub/nvmetcli/
 Source:         ftp://ftp.infradead.org/pub/nvmetcli/%{name}-%{version}.tar.gz
-Patch00:        0001-nvmetcli-don-t-remove-ANA-Group-1-on-clear.patch
-Patch01:        0002-README-Update-URL-for-configshell-fb.patch
-Patch02:        0003-nvmetcli-Improve-IOError-handling-on-restore.patch
-Patch03:        0004-nvme.py-Explicit-close-is-redundant.patch
-Patch04:        0005-nvme.py-Sync-the-containing-directory.patch
-Patch05:        0006-nvme.py-Make-modprobe-work-for-kmod-lib-too.patch
-Patch06:        0007-test_nvmet.py-test_invalid_input-fails-for-py3.patch
-Patch07:        0008-nvmetcli-Report-save-name-correctly.patch
-Patch08:        0009-nvmetcli-Allow-different-devices-for-make-test.patch
-Patch09:        0010-nvmetcli-Correct-xrange-usage-for-py3.patch
-Patch10:        0011-nvmetcli-add-a-tcp-example-json.patch
-Patch11:        0012-Documentation-fix-typo.patch
 BuildArch:      noarch
 BuildRequires: make
 BuildRequires:  python3-devel python3-setuptools systemd-units asciidoc xmlto
@@ -66,6 +54,15 @@ install -m 644 Documentation/nvmetcli.8.gz %{buildroot}%{_mandir}/man8/
 %{_mandir}/man8/nvmetcli.8.gz
 
 %changelog
+* Thu Oct 31 2024 Maurizio Lombardi <mlombard@redhat.com> - 0.8-3
+- Adding gating tests
+
+* Thu Oct 31 2024 Maurizio Lombardi <mlombard@redhat.com> - 0.8-2
+- Rebuild for RHEL-58733
+
+* Mon Sep 16 2024 Maurizio Lombardi <mlombard@redhat.com> - 0.8-1
+- Update to version 0.8
+
 * Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 0.7-3
 - Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
   Related: rhbz#1991688
